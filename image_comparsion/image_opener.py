@@ -1,6 +1,6 @@
 """
-    Модуль предоставляет функционал для преобразования входящих изображений
-    в необходимое представление.
+    Модуль предоставляет инструменты открытия изображений из различных источников
+    и преобразование их к стандартным объектам PIL.Image.Image 
 
     author: https://github.com/egor43
 """
@@ -17,7 +17,7 @@ def get_img(binary_stream, is_gray_scale=False):
             is_gray_scale - флаг определяющий необходимость преобразования
                             изображения в оттенки серого (черно-белое)
         Return:
-            PIL.Image - изображение
+            PIL.Image.Image - изображение
     """
     image = Image.open(binary_stream)
     if is_gray_scale:
@@ -33,7 +33,7 @@ def get_img_from_url(image_url, is_gray_scale=False):
             is_gray_scale - флаг определяющий необходимость преобразования
                             изображения в оттенки серого (черно-белое)
         Return:
-            PIL.Image - изображение
+            PIL.Image.Image - изображение
     """
     response = requests.get(image_url, stream=True)
     return get_img(response.raw, is_gray_scale)
