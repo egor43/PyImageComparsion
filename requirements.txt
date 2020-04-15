@@ -1,0 +1,2 @@
+ImageHash==4.0
+scikit-image==0.16.2
