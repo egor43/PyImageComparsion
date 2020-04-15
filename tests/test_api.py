@@ -11,4 +11,5 @@ class TestApiMethods(unittest.TestCase):
     """
         Набор тестовых кейсов для тестирования API модуля
     """
-    pass
+    def test_pass(self):
+        pass
