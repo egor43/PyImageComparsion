@@ -5,7 +5,7 @@
 """
 
 import imagehash
-import skimage
+from skimage.feature import ORB
 
 
 def average_hash(img, hash_size=128):
@@ -54,3 +54,17 @@ def difference_hash(img, hash_size=128):
             ImageHash - объект представляющий хеш изображения
     """
     return imagehash.dhash(img, hash_size)
+
+
+def orb_descriptors(img, keypoints=800):
+    """
+        Вычисление ORB дескрипторов.
+        Params:
+            img - изображение
+            keypoints - максимальное количество точек детектора
+        Return:
+            np.array - массив дескрипторов (как минмум двумерный)
+    """
+    extractor = ORB(n_keypoints=keypoints)
+    extractor.detect_and_extract(img)
+    return extractor.descriptors
