@@ -42,3 +42,15 @@ def wavelet_hash(img, hash_size=128):
             ImageHash - объект представляющий хеш изображения
     """
     return imagehash.whash(img, hash_size)
+
+
+def difference_hash(img, hash_size=128):
+    """
+        Вычисление difference hash.
+        Params:
+            img - изображение
+            hash_size - размер хеша
+        Return:
+            ImageHash - объект представляющий хеш изображения
+    """
+    return imagehash.dhash(img, hash_size)
