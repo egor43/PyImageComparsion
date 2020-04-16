@@ -68,3 +68,17 @@ def orb_descriptors(img, keypoints=800):
     extractor = ORB(n_keypoints=keypoints)
     extractor.detect_and_extract(img)
     return extractor.descriptors
+
+
+def hamming_distance(first_hash, second_hash):
+    """
+        Вычисление расстояния Хемминга между двумя хешами.
+        Params:
+            first_hash - хеш изображения
+            second_hash - хеш изображения
+        Return:
+            int - расстояние Хемминга
+    """
+    if len(first_hash.hash) == len(second_hash.hash):
+        return first_hash - second_hash
+    raise AttributeError("Хеши изображений имеют различную длину")
