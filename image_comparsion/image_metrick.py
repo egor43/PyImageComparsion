@@ -84,6 +84,20 @@ def match_descriptors_count(first_desc, second_desc):
     return len(matched_points)
 
 
+def match_descriptors_percent(first_desc, second_desc):
+    """
+        Вычисление количества совпадений между дескрипторами в процентах.
+        Params:
+            first_desc - дескрипторы изображения
+            second_desc - дескрипторы изображения
+        Return:
+            double - процент совпадений
+    """
+    match_count = match_descriptors_count(first_desc, second_desc)
+    min_point_count = min(len(first_desc), len(first_desc))
+    return match_count / (min_point_count * 0.01)
+
+
 def hamming_distance(first_hash, second_hash):
     """
         Вычисление расстояния Хемминга между двумя хешами.
