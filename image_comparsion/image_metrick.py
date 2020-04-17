@@ -84,6 +84,21 @@ def hamming_distance(first_hash, second_hash):
     raise AttributeError("Хеши изображений имеют различную длину")
 
 
+def hamming_distance_percent(first_hash, second_hash):
+    """
+        Вычисление расстояния Хемминга между двумя хешами в процентах.
+        Params:
+            first_hash - хеш изображения
+            second_hash - хеш изображения
+        Return:
+            double - расстояние Хемминга в процентах
+    """
+    dist = hamming_distance(first_hash, second_hash)
+    # first_hash.hash - 2D массив со сторонами: len(first_hash.hash) Х len(first_hash.hash)
+    size_dist = len(first_hash.hash) ** 2
+    return dist / (size_dist * 0.01)
+
+
 def image_metricks(img, metricks=("all",)):
     """
         Получение метрик изображения.
