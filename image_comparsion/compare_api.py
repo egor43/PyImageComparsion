@@ -4,7 +4,10 @@
     author: https://github.com/egor43
 """
 
+import statistics
 from . import image_metrick
+from . import image_opener
+from . import helpers
 
 
 def hash_match_rates(base_img, comparable_img, metricks=("avg", "wav")):
@@ -48,3 +51,23 @@ def orb_match_rate(base_img, comparable_img):
     base_img_metricks = image_metrick.image_metricks(base_img, metricks=("orb",))
     comparable_img_metricks = image_metrick.image_metricks(comparable_img, metricks=("orb",))
     return image_metrick.match_descriptors_percent(base_img_metricks["orb"], comparable_img_metricks["orb"])
+
+
+def fast_image_compare(img_1_path, img_2_path, match_threshold_percent=75):
+    """
+        Быстрое сравнение изображений по average hash и wavelet hash.
+        Params:
+            img_1_path - путь до изображения или url изображения
+            img_2_path - путь до изображения или url изображения
+            match_threshold_percent - порог совпадения хешей с которого
+                                      можно считать изображения похожими
+        Return:
+            bool - являются ли изображения похожими
+    """
+    img_1 = image_opener.get_img(img_1_path, is_gray_scale=True)
+    img_2 = image_opener.get_img(img_2_path, is_gray_scale=True)
+    
+    match_rates = hash_match_rates(img_1, img_2)
+    if statistics.mean(match_rates.values()) >= match_threshold_percent:
+        return True
+    return False
