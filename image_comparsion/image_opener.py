@@ -6,6 +6,7 @@
 """
 
 import requests
+import io
 from PIL import Image
 from . import helpers
 
@@ -39,3 +40,20 @@ def get_img_from_url(image_url, is_gray_scale=False):
     response = requests.get(image_url, stream=True)
     return get_img_from_byte_stream(response.raw, is_gray_scale)
 
+
+def get_img(image_path, is_gray_scale=False):
+    """
+        Возвращает изображение полученное по переданному пути или url.
+        Params:
+            image_path - путь или url адрес изображения
+            is_gray_scale - флаг определяющий необходимость преобразования
+                            изображения в оттенки серого (черно-белое)
+        Return:
+            PIL.Image.Image - изображение
+    """
+    if helpers.is_url(image_path):
+        return get_img_from_url(image_path, is_gray_scale)
+    
+    with open(image_path, "rb") as image_bs:
+        image_byte_buf = io.BytesIO(image_bs.read())
+        return get_img_from_byte_stream(image_byte_buf, is_gray_scale)
