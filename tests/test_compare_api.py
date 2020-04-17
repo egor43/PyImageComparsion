@@ -20,15 +20,15 @@ class TestCompareApi(unittest.TestCase):
         """
         self.img1_path = "./tests/files/1.png"
         with open(self.img1_path, "rb") as image_bs:
-            self.img1 = image_opener.get_img_from_path(image_bs, is_gray_scale=True)
+            self.img1 = image_opener.get_img_from_byte_stream(image_bs, is_gray_scale=True)
     
         self.img2_path = "./tests/files/2.png"
         with open(self.img2_path, "rb") as image_bs:
-            self.img2 = image_opener.get_img_from_path(image_bs, is_gray_scale=True)
+            self.img2 = image_opener.get_img_from_byte_stream(image_bs, is_gray_scale=True)
         
         self.img3_path = "./tests/files/3.png"
         with open(self.img3_path, "rb") as image_bs:
-            self.img3 = image_opener.get_img_from_path(image_bs, is_gray_scale=True)
+            self.img3 = image_opener.get_img_from_byte_stream(image_bs, is_gray_scale=True)
     
     def test_hash_match_rates(self):
         """

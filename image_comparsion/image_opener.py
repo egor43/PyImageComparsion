@@ -7,9 +7,10 @@
 
 import requests
 from PIL import Image
+from . import helpers
 
 
-def get_img_from_path(binary_stream, is_gray_scale=False):
+def get_img_from_byte_stream(binary_stream, is_gray_scale=False):
     """
         Возвращает изображение.
         Params:
@@ -36,4 +37,5 @@ def get_img_from_url(image_url, is_gray_scale=False):
             PIL.Image.Image - изображение
     """
     response = requests.get(image_url, stream=True)
-    return get_img_from_path(response.raw, is_gray_scale)
+    return get_img_from_byte_stream(response.raw, is_gray_scale)
+
