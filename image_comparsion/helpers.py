@@ -18,4 +18,3 @@ def is_url(check_str):
     """
     url_parts = urlparse(check_str)
     return url_parts.scheme in ("http", "https")
-        

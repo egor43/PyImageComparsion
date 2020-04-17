@@ -29,6 +29,9 @@ class TestCompareApi(unittest.TestCase):
         self.img3_path = "./tests/files/3.png"
         with open(self.img3_path, "rb") as image_bs:
             self.img3 = image_opener.get_img_from_byte_stream(image_bs, is_gray_scale=True)
+        
+        self.img4_path = "./tests/files/4.png"
+        self.img5_path = "./tests/files/5.png"
     
     def test_hash_match_rates(self):
         """
@@ -75,3 +78,21 @@ class TestCompareApi(unittest.TestCase):
         """
         match_percent = compare_api.orb_match_rate(self.img2, self.img2)
         self.assertTrue(match_percent >= 97 and match_percent <= 100)
+
+    def test_fast_image_compare(self):
+        """
+            Тестирование быстрого сравнения различных изображений 
+        """
+        self.assertFalse(compare_api.fast_image_compare(self.img1_path, self.img2_path))
+    
+    def test_fast_image_compare_equals(self):
+        """
+            Тестирование быстрого сравнения идентичных изображений 
+        """
+        self.assertTrue(compare_api.fast_image_compare(self.img2_path, self.img2_path))
+    
+    def test_fast_image_compare_similar(self):
+        """
+            Тестирование быстрого сравнения похожих изображений 
+        """
+        self.assertTrue(compare_api.fast_image_compare(self.img4_path, self.img5_path))
