@@ -6,6 +6,7 @@
 
 import imagehash
 from skimage.feature import ORB
+from skimage.feature import match_descriptors
 
 
 def average_hash(img, hash_size=128):
@@ -68,6 +69,19 @@ def orb_descriptors(img, keypoints=800):
     extractor = ORB(n_keypoints=keypoints)
     extractor.detect_and_extract(img)
     return extractor.descriptors
+
+
+def match_descriptors_count(first_desc, second_desc):
+    """
+        Вычисление количества совпадений между дескрипторами.
+        Params:
+            first_desc - дескрипторы изображения
+            second_desc - дескрипторы изображения
+        Return:
+            int - количество совпадений
+    """
+    matched_points = match_descriptors(first_desc, second_desc, cross_check=True)
+    return len(matched_points)
 
 
 def hamming_distance(first_hash, second_hash):
