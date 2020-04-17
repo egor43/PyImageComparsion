@@ -82,3 +82,35 @@ def hamming_distance(first_hash, second_hash):
     if len(first_hash.hash) == len(second_hash.hash):
         return first_hash - second_hash
     raise AttributeError("Хеши изображений имеют различную длину")
+
+
+def image_metricks(img, metricks=("all",)):
+    """
+        Получение метрик изображения.
+        Params:
+            img - изображение
+            metricks=("all",) - метрики, которые необходимо получить:
+                               "all" - все метрики;
+                               "avg" - average hash;
+                               "per" - perceptual hash;
+                               "wav" - wavelet hash;
+                               "dif" - difference hash;
+                               "orb" - ORB descriptors.
+        Return:
+            dict - словарь с вычисленными метриками.
+                   Пример: {"avg": ...., "wav": ....}
+    """
+    result = {}
+    
+    if "avg" in metricks or "all" in metricks:
+        result["avg"] = average_hash(img)
+    if "per" in metricks or "all" in metricks:
+        result["per"] = perceptual_hash(img)
+    if "wav" in metricks or "all" in metricks:
+        result["wav"] = wavelet_hash(img)
+    if "dif" in metricks or "all" in metricks:
+        result["dif"] = difference_hash(img)
+    if "orb" in metricks or "all" in metricks:
+        result["orb"] = orb_descriptors(img)
+    
+    return result
