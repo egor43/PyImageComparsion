@@ -87,6 +87,23 @@ class TestImageMetrick(unittest.TestCase):
         avg_hash_2 = image_metrick.average_hash(self.img2, hash_size=64)
         self.assertRaises(AttributeError, image_metrick.hamming_distance, avg_hash_1, avg_hash_2)
 
+    def test_hamming_distance_percent(self):
+        """
+            Тестирование получения расстояния Хемминга в процентах
+        """
+        avg_hash_1 = image_metrick.average_hash(self.img1)
+        avg_hash_2 = image_metrick.average_hash(self.img2)
+        hamming_dist_percent = image_metrick.hamming_distance_percent(avg_hash_1, avg_hash_2)
+        self.assertTrue(hamming_dist_percent > 0)
+    
+    def test_hamming_distance_percent_for_equal_hashes(self):
+        """
+            Тестирование получения расстояния Хемминга в процентах для одинаковых хешей
+        """
+        avg_hash = image_metrick.average_hash(self.img2)
+        hamming_dist_percent = image_metrick.hamming_distance_percent(avg_hash, avg_hash)
+        self.assertEqual(hamming_dist_percent, 0)
+
     def test_image_metricks_all(self):
         """
             Тестирование получения всех метрик изображения
@@ -99,6 +116,9 @@ class TestImageMetrick(unittest.TestCase):
         self.assertTrue("orb" in all_metricks)
     
     def test_image_metricks_with_enumerated(self):
+        """
+            Теситрование получения всех явно перечисленных метрик
+        """
         metricks = ("orb", "dif", "wav", "per", "avg")
         all_metricks = image_metrick.image_metricks(self.img2, metricks=metricks)
         self.assertTrue("avg" in all_metricks)
@@ -108,6 +128,9 @@ class TestImageMetrick(unittest.TestCase):
         self.assertTrue("orb" in all_metricks)
 
     def test_image_metricks_empty(self):
+        """
+            Тестирование получения метрик по пустому списку
+        """
         all_metricks = image_metrick.image_metricks(self.img2, metricks=tuple())
         self.assertFalse("avg" in all_metricks)
         self.assertFalse("per" in all_metricks)
