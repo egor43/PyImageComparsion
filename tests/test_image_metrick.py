@@ -25,6 +25,10 @@ class TestImageMetrick(unittest.TestCase):
         self.img2_path = "./tests/files/2.png"
         with open(self.img2_path, "rb") as image_bs:
             self.img2 = image_opener.get_img(image_bs, is_gray_scale=True)
+        
+        self.img3_path = "./tests/files/3.png"
+        with open(self.img3_path, "rb") as image_bs:
+            self.img3 = image_opener.get_img(image_bs, is_gray_scale=True)
 
     def test_average_hash(self):
         """
@@ -60,6 +64,25 @@ class TestImageMetrick(unittest.TestCase):
         """
         orb_desc = image_metrick.orb_descriptors(self.img2)
         self.assertTrue(len(orb_desc))
+
+    def test_match_descriptors_count(self):
+        """
+            Тестиование получения количества совпадающих точек из дескрипторов
+        """
+        desc_1 = image_metrick.orb_descriptors(self.img2)
+        desc_2 = image_metrick.orb_descriptors(self.img3)
+        match_count = image_metrick.match_descriptors_count(desc_1, desc_2)
+        self.assertTrue(match_count > 0)
+
+    def test_match_descriptors_max_count(self):
+        """
+            Тестиование максимального количества совпадений точек из дескрипторов
+        """
+        desc_1 = image_metrick.orb_descriptors(self.img2)
+        desc_2 = image_metrick.orb_descriptors(self.img3)
+        min_desc_count = min(len(desc_1), len(desc_2))
+        match_count = image_metrick.match_descriptors_count(desc_1, desc_2)
+        self.assertTrue(match_count < min_desc_count)
 
     def test_hamming_distance(self):
         """
