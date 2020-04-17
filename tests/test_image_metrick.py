@@ -25,8 +25,7 @@ class TestImageMetrick(unittest.TestCase):
         self.img2_path = "./tests/files/2.png"
         with open(self.img2_path, "rb") as image_bs:
             self.img2 = image_opener.get_img(image_bs, is_gray_scale=True)
-    
-    
+
     def test_average_hash(self):
         """
             Тестирование получения average hash изображения
