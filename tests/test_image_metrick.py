@@ -83,6 +83,15 @@ class TestImageMetrick(unittest.TestCase):
         min_desc_count = min(len(desc_1), len(desc_2))
         match_count = image_metrick.match_descriptors_count(desc_1, desc_2)
         self.assertTrue(match_count < min_desc_count)
+    
+    def test_match_descriptors_percent(self):
+        """
+            Тестиование получения процента совпадающих точек из дескрипторов
+        """
+        desc_1 = image_metrick.orb_descriptors(self.img2)
+        desc_2 = image_metrick.orb_descriptors(self.img3)
+        match_percent = image_metrick.match_descriptors_percent(desc_1, desc_2)
+        self.assertTrue(match_percent >= 0 and match_percent <= 100)
 
     def test_hamming_distance(self):
         """
