@@ -23,13 +23,28 @@ def hash_match_rates(base_img, comparable_img, metricks=("avg", "wav")):
                    совпадения хешей изображений.
                    Пример: {"avg": 14.59373, "wav": 100.0, ....}
     """
-    base_img_hashes = image_metrick.image_metricks(base_img, metricks)
-    comparable_img_hashes = image_metrick.image_metricks(comparable_img, metricks)
+    base_img_metricks = image_metrick.image_metricks(base_img, metricks)
+    comparable_img_metricks = image_metrick.image_metricks(comparable_img, metricks)
 
     result = {}
-    for metrick_name, base_img_hash_value in base_img_hashes.items():
+    for metrick_name, base_img_hash_value in base_img_metricks.items():
         difference_percent = image_metrick.hamming_distance_percent(base_img_hash_value,
-                                                                    comparable_img_hashes[metrick_name])
+                                                                    comparable_img_metricks[metrick_name])
         # Нам нужны проценты совпадений а не различий
         result[metrick_name] = 100 - difference_percent
     return result
+
+
+def orb_match_rate(base_img, comparable_img):
+    """
+        Степени совпадения изображений по точкам ORB деткетора
+        Params:
+            base_img - базовое изображение
+            comparable_img - сравниваемое изображение
+        Return:
+            double - степень совпадения (в процентах) изображений
+                     на основе анализа точек детектора ORB
+    """
+    base_img_metricks = image_metrick.image_metricks(base_img, metricks=("orb",))
+    comparable_img_metricks = image_metrick.image_metricks(comparable_img, metricks=("orb",))
+    return image_metrick.match_descriptors_percent(base_img_metricks["orb"], comparable_img_metricks["orb"])
