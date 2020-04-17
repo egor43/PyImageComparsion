@@ -86,3 +86,31 @@ class TestImageMetrick(unittest.TestCase):
         avg_hash_1 = image_metrick.average_hash(self.img1)
         avg_hash_2 = image_metrick.average_hash(self.img2, hash_size=64)
         self.assertRaises(AttributeError, image_metrick.hamming_distance, avg_hash_1, avg_hash_2)
+
+    def test_image_metricks_all(self):
+        """
+            Тестирование получения всех метрик изображения
+        """
+        all_metricks = image_metrick.image_metricks(self.img2)
+        self.assertTrue("avg" in all_metricks)
+        self.assertTrue("per" in all_metricks)
+        self.assertTrue("wav" in all_metricks)
+        self.assertTrue("dif" in all_metricks)
+        self.assertTrue("orb" in all_metricks)
+    
+    def test_image_metricks_with_enumerated(self):
+        metricks = ("orb", "dif", "wav", "per", "avg")
+        all_metricks = image_metrick.image_metricks(self.img2, metricks=metricks)
+        self.assertTrue("avg" in all_metricks)
+        self.assertTrue("per" in all_metricks)
+        self.assertTrue("wav" in all_metricks)
+        self.assertTrue("dif" in all_metricks)
+        self.assertTrue("orb" in all_metricks)
+
+    def test_image_metricks_empty(self):
+        all_metricks = image_metrick.image_metricks(self.img2, metricks=tuple())
+        self.assertFalse("avg" in all_metricks)
+        self.assertFalse("per" in all_metricks)
+        self.assertFalse("wav" in all_metricks)
+        self.assertFalse("dif" in all_metricks)
+        self.assertFalse("orb" in all_metricks)
