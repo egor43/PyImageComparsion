@@ -27,14 +27,14 @@ class TestImageOpener(unittest.TestCase):
             Тестирование получения исключения при передаче пустого байтового потока
         """
         empty_byte_stream = io.BytesIO(b'')
-        self.assertRaises(PIL.UnidentifiedImageError, image_opener.get_img, empty_byte_stream)
+        self.assertRaises(PIL.UnidentifiedImageError, image_opener.get_img_from_path, empty_byte_stream)
 
-    def test_get_img(self):
+    def test_get_img_from_path(self):
         """
             Тестирование получения изображения
         """
         with open(self.img_path, "rb") as img_byte_stream:
-            img = image_opener.get_img(img_byte_stream)
+            img = image_opener.get_img_from_path(img_byte_stream)
             self.assertTrue(img.getdata())
     
     def test_get_img_gray_scale(self):
@@ -42,7 +42,7 @@ class TestImageOpener(unittest.TestCase):
             Тестирование получения изображения в оттенках серого
         """
         with open(self.img_path, "rb") as img_byte_stream:
-            img = image_opener.get_img(img_byte_stream, is_gray_scale=True)
+            img = image_opener.get_img_from_path(img_byte_stream, is_gray_scale=True)
             self.assertEqual(img.mode, "L")
     
     def test_get_img_not_gray_scale(self):
@@ -50,7 +50,7 @@ class TestImageOpener(unittest.TestCase):
             Тестирование получения изображения в цветном режиме
         """
         with open(self.img_path, "rb") as img_byte_stream:
-            img = image_opener.get_img(img_byte_stream)
+            img = image_opener.get_img_from_path(img_byte_stream)
             self.assertNotEqual(img.mode, "L")
 
     def test_get_img_from_url_empty_raise(self):
