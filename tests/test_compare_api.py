@@ -99,6 +99,27 @@ class TestCompareApi(unittest.TestCase):
         """
         match_percent = compare_api.orb_match_rate(self.img2, self.img2)
         self.assertTrue(match_percent >= 97 and match_percent <= 100)
+    
+    def test_image_orb_compare(self):
+        """
+            Тестирование определения схожести ORB дескирпторов изображений
+        """
+        match_threshold_orb_percent = 75
+        self.assertFalse(compare_api.image_orb_compare(self.img2, self.img3, match_threshold_orb_percent))
+    
+    def test_image_orb_compare_low_threshold_percent(self):
+        """
+            Тестирование определения схожести различных ORB дескирпторов изображений при условии низкого порога точности
+        """
+        match_threshold_orb_percent = 0
+        self.assertTrue(compare_api.image_orb_compare(self.img2, self.img3, match_threshold_orb_percent))
+
+    def test_image_orb_compare_high_threshold_percent(self):
+        """
+            Тестирование определения схожести идентичных ORB дескирпторов изображений при условии высокого порога точности
+        """
+        match_threshold_orb_percent = 98
+        self.assertTrue(compare_api.image_orb_compare(self.img2, self.img2, match_threshold_orb_percent))
 
     def test_fast_image_compare(self):
         """
