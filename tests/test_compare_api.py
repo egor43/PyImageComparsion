@@ -65,6 +65,27 @@ class TestCompareApi(unittest.TestCase):
         self.assertTrue("per" in match_rates)
         self.assertTrue("wav" in match_rates)
 
+    def test_image_hash_compare(self):
+        """
+            Тестирование определения схожести хешей изображений
+        """
+        match_threshold_hash_percent = 75
+        self.assertFalse(compare_api.image_hash_compare(self.img1, self.img2, match_threshold_hash_percent))
+
+    def test_image_hash_compare_low_threshold_percent(self):
+        """
+            Тестирование определения схожести различных хешей изображений при условии низкого порога точности
+        """
+        match_threshold_hash_percent = 0
+        self.assertTrue(compare_api.image_hash_compare(self.img1, self.img2, match_threshold_hash_percent))
+
+    def test_image_hash_compare_max_threshold_percent(self):
+        """
+            Тестирование определения схожести идентичных хешей изображений при условии 100% порога точности
+        """
+        match_threshold_hash_percent = 100
+        self.assertTrue(compare_api.image_hash_compare(self.img2, self.img2, match_threshold_hash_percent))
+
     def test_orb_match_rate(self):
         """
             Тестирование получения процента совпадения изображений по дескрипторам ORB детектора
