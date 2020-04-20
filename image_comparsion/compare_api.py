@@ -103,7 +103,7 @@ def fast_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75):
     return image_hash_compare(img_1, img_2, match_threshold_hash_percent)
 
 
-def full_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75, match_threshold_orb_percent=75):
+def full_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75, match_threshold_orb_percent=60):
     """
         Сравнение изображений по average hash и wavelet hash.
         При негативном результате сравнения производится сравнение по соответствию ORB дескрипторов.
