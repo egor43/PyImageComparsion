@@ -138,3 +138,21 @@ class TestCompareApi(unittest.TestCase):
             Тестирование быстрого сравнения похожих изображений 
         """
         self.assertTrue(compare_api.fast_image_compare(self.img4_path, self.img5_path))
+
+    def test_full_image_compare(self):
+        """
+            Тестирование полного сравнения различных изображений 
+        """
+        self.assertFalse(compare_api.full_image_compare(self.img2_path, self.img3_path))
+    
+    def test_full_image_compare_equals(self):
+        """
+            Тестирование полного сравнения идентичных изображений 
+        """
+        self.assertTrue(compare_api.full_image_compare(self.img3_path, self.img3_path))
+    
+    def test_full_image_compare_similar(self):
+        """
+            Тестирование быстрого сравнения похожих изображений 
+        """
+        self.assertTrue(compare_api.full_image_compare(self.img4_path, self.img5_path))
