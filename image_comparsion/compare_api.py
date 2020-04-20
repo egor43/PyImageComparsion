@@ -38,6 +38,23 @@ def hash_match_rates(base_img, comparable_img, metricks=("avg", "wav")):
     return result
 
 
+def image_hash_compare(base_img, comparable_img, match_threshold_hash_percent):
+    """
+        Определение схожести двух изображений по average hash и wavelet hash.
+        Params:
+            base_img - базовое изображение
+            comparable_img - сравниваемое изображение
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими
+        Return:
+            bool - являются ли изображения похожими
+    """
+    match_rates = hash_match_rates(base_img, comparable_img)
+    if statistics.mean(match_rates.values()) >= match_threshold_hash_percent:
+        return True
+    return False
+
+
 def orb_match_rate(base_img, comparable_img):
     """
         Степени совпадения изображений по точкам ORB деткетора
@@ -53,21 +70,34 @@ def orb_match_rate(base_img, comparable_img):
     return image_metrick.match_descriptors_percent(base_img_metricks["orb"], comparable_img_metricks["orb"])
 
 
-def fast_image_compare(img_1_path, img_2_path, match_threshold_percent=75):
+def fast_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75):
     """
         Быстрое сравнение изображений по average hash и wavelet hash.
         Params:
             img_1_path - путь до изображения или url изображения
             img_2_path - путь до изображения или url изображения
-            match_threshold_percent - порог совпадения хешей с которого
-                                      можно считать изображения похожими
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими
         Return:
             bool - являются ли изображения похожими
     """
     img_1 = image_opener.get_img(img_1_path, is_gray_scale=True)
     img_2 = image_opener.get_img(img_2_path, is_gray_scale=True)
-    
-    match_rates = hash_match_rates(img_1, img_2)
-    if statistics.mean(match_rates.values()) >= match_threshold_percent:
-        return True
-    return False
+    return image_hash_compare(img_1, img_2, match_threshold_hash_percent)
+
+
+def full_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75, match_threshold_orb_percent=75):
+    """
+        Сравнение изображений по average hash и wavelet hash.
+        При негативном результате сравнения производится сравнение по соответствию ORB дескрипторов.
+        Params:
+            img_1_path - путь до изображения или url изображения
+            img_2_path - путь до изображения или url изображения
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими.
+            match_threshold_orb_percent - порог совпадения ORB дескриторов с которого
+                                          можно считать изображения похожими.
+        Return:
+            bool - являются ли изображения похожими
+    """
+    pass
