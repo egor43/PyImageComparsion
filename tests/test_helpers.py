@@ -6,12 +6,32 @@
 
 import unittest
 from image_comparsion import helpers
+from image_comparsion import image_opener
 
 
 class TestHelpers(unittest.TestCase):
     """
         Набор тестовых кейсов для тестирования вспомогательных инструментов
     """
+    
+    def setUp(self):
+        """
+            Подготовка необходимых данных
+        """
+        self.img1_path = "./tests/files/1.png"
+        self.img1 = image_opener.get_img(self.img1_path, is_gray_scale=True)
+    
+        self.img2_path = "./tests/files/2.png"
+        self.img2 = image_opener.get_img(self.img2_path, is_gray_scale=True)
+        
+        self.img3_path = "./tests/files/3.png"
+        self.img3 = image_opener.get_img(self.img3_path, is_gray_scale=True)
+
+        self.img4_path = "./tests/files/4.png"
+        self.img4 = image_opener.get_img(self.img4_path, is_gray_scale=True)
+
+        self.img5_path = "./tests/files/5.png"
+        self.img5 = image_opener.get_img(self.img5_path, is_gray_scale=True)
 
     def test_is_url_valid(self):
         """
@@ -31,4 +51,18 @@ class TestHelpers(unittest.TestCase):
         self.assertFalse(helpers.is_url("files/1.png"))
         self.assertFalse(helpers.is_url("http/2.ru"))
     
+    def test_max_image(self):
+        """
+            Темтирование получения изображения максимального размера
+        """
+        images = [self.img1, self.img2, self.img3, self.img4, self.img5]
+        max_image = helpers.max_image(images)
+        self.assertEqual(max_image, self.img5)
     
+    def test_max_image_empty_seq(self):
+        """
+            Темтирование получения изображения максимального размера из пустого списка
+        """
+        images = []
+        max_image = helpers.max_image(images)
+        self.assertEqual(max_image, None)
