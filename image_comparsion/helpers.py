@@ -18,3 +18,14 @@ def is_url(check_str):
     """
     url_parts = urlparse(check_str)
     return url_parts.scheme in ("http", "https")
+
+
+def max_image(images):
+    """
+        Возвращает изображение с максимальным размером (разрешением)
+        Params:
+            images - последовательность изображений
+        Return:
+            Image - изображение с максимальным размером 
+    """
+    return max(images, key=lambda img: img.width * img.height, default=None)
