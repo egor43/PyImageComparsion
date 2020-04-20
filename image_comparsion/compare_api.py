@@ -117,4 +117,12 @@ def full_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75, 
         Return:
             bool - являются ли изображения похожими
     """
-    pass
+    img_1 = image_opener.get_img(img_1_path, is_gray_scale=True)
+    img_2 = image_opener.get_img(img_2_path, is_gray_scale=True)
+
+    hash_compare = image_hash_compare(img_1, img_2, match_threshold_hash_percent)
+    if hash_compare:
+        return hash_compare
+    # Оценку схожести по ORB используем только если не определили схожесть по хешам,
+    # т.к. оценка схожести по ORB - достаточно затратная по времени операция
+    return image_orb_compare(img_1, img_2, match_threshold_orb_percent)
