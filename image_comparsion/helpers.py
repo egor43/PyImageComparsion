@@ -4,6 +4,7 @@
     author: https://github.com/egor43
 """
 
+import statistics
 from urllib.parse import urlparse
 
 
@@ -29,3 +30,26 @@ def max_image(images):
             Image - изображение с максимальным размером 
     """
     return max(images, key=lambda img: img.width * img.height, default=None)
+
+
+def is_avg_exceeded_threshold(seq, threshold, strict_equality=False):
+    """
+        Проверяет, превысило ли среднее значение последовательности 
+        определенный порог
+        Params:
+            seq - последовательность значений
+            threshold - порог значения, превышение которого проверяется
+            strict_equality - флаг определяющий строгое/нестрогое равенство
+                              при сравнении с пороговым значением
+        Return:
+            bool - превысило ли среднее значение последовательности заданный порог
+    """
+    if not seq:
+        return False
+
+    avg_value = statistics.mean(seq)
+    if strict_equality:
+        compare_method = getattr(avg_value, "__gt__")
+    else:
+        compare_method = getattr(avg_value, "__ge__")
+    return compare_method(threshold)

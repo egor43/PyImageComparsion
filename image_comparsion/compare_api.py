@@ -4,7 +4,6 @@
     author: https://github.com/egor43
 """
 
-import statistics
 from . import image_opener
 from . import compare_tools
 from . import helpers
@@ -22,9 +21,7 @@ def image_hash_compare(base_img, comparable_img, match_threshold_hash_percent):
             bool - являются ли изображения похожими
     """
     match_rates = compare_tools.image_match_rates(base_img, comparable_img)
-    if statistics.mean(match_rates.values()) >= match_threshold_hash_percent:
-        return True
-    return False
+    return helpers.is_avg_exceeded_threshold(match_rates.values(), match_threshold_hash_percent)
 
 
 def image_orb_compare(base_img, comparable_img, match_threshold_orb_percent):
@@ -39,9 +36,7 @@ def image_orb_compare(base_img, comparable_img, match_threshold_orb_percent):
             bool - являются ли изображения похожими
     """
     match_rate = compare_tools.orb_match_rate(base_img, comparable_img)
-    if match_rate >= match_threshold_orb_percent:
-        return True
-    return False
+    return helpers.is_avg_exceeded_threshold([match_rate], match_threshold_orb_percent)
 
 
 def fast_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75):
