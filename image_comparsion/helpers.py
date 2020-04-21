@@ -53,3 +53,19 @@ def is_avg_exceeded_threshold(seq, threshold, strict_equality=False):
     else:
         compare_method = getattr(avg_value, "__ge__")
     return compare_method(threshold)
+
+
+def filter_metrick(metricks, select_names):
+    """
+        Выбирает указанные метрики метрики
+        Params:
+            metricks - словарь с метриками изображений
+            select_names - последовательность названий метрик, которые необходимо выбрать
+        Return:
+            dict - словарь с указанными метриками
+    """
+    result = {}
+    for metrick_name, metrick_value in metricks.items():
+        if metrick_name in select_names:
+            result[metrick_name] = metrick_value
+    return result
