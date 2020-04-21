@@ -7,6 +7,8 @@
 import unittest
 from image_comparsion import helpers
 from image_comparsion import image_opener
+from image_comparsion import image_metrick
+from image_comparsion import constants
 
 
 class TestHelpers(unittest.TestCase):
@@ -118,3 +120,21 @@ class TestHelpers(unittest.TestCase):
         """
         seq = [3, 3, 3]
         self.assertTrue(helpers.is_avg_exceeded_threshold(seq, 2, strict_equality=True))
+
+    def test_filter_metrick(self):
+        """
+            Тестирование фильтрации метрик
+        """
+        metricks = image_metrick.image_metricks(self.img2)
+        self.assertTrue(helpers.filter_metrick(metricks, ("avg")))
+    
+    def test_filter_metrick_select_defautl_hash_metricks(self):
+        """
+            Тестирование фильтрации метрик.
+            Получение стандартных метрик хешей
+        """
+        metricks = image_metrick.image_metricks(self.img2)
+        default_hash_metricks = helpers.filter_metrick(metricks, constants.DEFAULT_HASHES)
+        self.assertEqual(len(default_hash_metricks), len(constants.DEFAULT_HASHES))
+        for metrick_name in default_hash_metricks:
+            self.assertTrue(metrick_name in constants.DEFAULT_HASHES)
