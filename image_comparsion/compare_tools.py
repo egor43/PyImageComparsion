@@ -5,6 +5,7 @@
 """
 
 from . import image_metrick
+from . import helpers
 
 
 def hash_match_rates(base_img_hashes, comparable_img_hashes):
@@ -59,3 +60,33 @@ def orb_match_rate(base_img, comparable_img):
     base_img_metricks = image_metrick.image_metricks(base_img, metricks=("orb",))
     comparable_img_metricks = image_metrick.image_metricks(comparable_img, metricks=("orb",))
     return image_metrick.match_descriptors_percent(base_img_metricks["orb"], comparable_img_metricks["orb"])
+
+
+def image_hash_compare(base_img, comparable_img, match_threshold_hash_percent):
+    """
+        Определение схожести двух изображений по average hash и wavelet hash.
+        Params:
+            base_img - базовое изображение
+            comparable_img - сравниваемое изображение
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими
+        Return:
+            bool - являются ли изображения похожими
+    """
+    match_rates = image_match_rates(base_img, comparable_img)
+    return helpers.is_avg_exceeded_threshold(match_rates.values(), match_threshold_hash_percent)
+
+
+def image_orb_compare(base_img, comparable_img, match_threshold_orb_percent):
+    """
+        Определение схожести двух изображений по совпадениям точек ORB детектора.
+        Params:
+            base_img - базовое изображение
+            comparable_img - сравниваемое изображение
+            match_threshold_orb_percent - порог совпадения ORB дескриторов с которого
+                                          можно считать изображения похожими
+        Return:
+            bool - являются ли изображения похожими
+    """
+    match_rate = orb_match_rate(base_img, comparable_img)
+    return helpers.is_avg_exceeded_threshold([match_rate], match_threshold_orb_percent)
