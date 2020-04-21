@@ -7,9 +7,29 @@
 from . import image_metrick
 
 
-def hash_match_rates(base_img, comparable_img, metricks=("avg", "wav")):
+def hash_match_rates(base_img_hashes, comparable_img_hashes):
     """
-        Степени совпадения хешей изображения
+        Возвращает степени совпадения хешей изображений
+        Params:
+            base_img_hashes - словарь с хешами базового изображения
+            comparable_img_hashes - словарь с хешами сравниваемого изображения
+        Return:
+            dict - словарь со степенями (в процентах)
+                   совпадения хешей изображений.
+                   Пример: {"avg": 14.59373, "wav": 100.0, ....}
+    """
+    result = {}
+    for metrick_name, base_img_hash_value in base_img_hashes.items():
+        difference_percent = image_metrick.hamming_distance_percent(base_img_hash_value,
+                                                                    comparable_img_hashes[metrick_name])
+        # Нам нужны проценты совпадений а не различий
+        result[metrick_name] = 100 - difference_percent
+    return result
+
+
+def image_match_rates(base_img, comparable_img, metricks=("avg", "wav")):
+    """
+        Степени совпадения хешей изображений
         Params:
             base_img - базовое изображение
             comparable_img - сравниваемое изображение
@@ -19,21 +39,11 @@ def hash_match_rates(base_img, comparable_img, metricks=("avg", "wav")):
                                "wav" - wavelet hash;
                                "dif" - difference hash.
         Return:
-            dict - словарь со степенями (в процентах)
-                   совпадения хешей изображений.
-                   Пример: {"avg": 14.59373, "wav": 100.0, ....}
+            
     """
     base_img_metricks = image_metrick.image_metricks(base_img, metricks)
     comparable_img_metricks = image_metrick.image_metricks(comparable_img, metricks)
-
-    result = {}
-    for metrick_name, base_img_hash_value in base_img_metricks.items():
-        difference_percent = image_metrick.hamming_distance_percent(base_img_hash_value,
-                                                                    comparable_img_metricks[metrick_name])
-        # Нам нужны проценты совпадений а не различий
-        result[metrick_name] = 100 - difference_percent
-    return result
-
+    return hash_match_rates(base_img_metricks, comparable_img_metricks)
 
 
 def orb_match_rate(base_img, comparable_img):

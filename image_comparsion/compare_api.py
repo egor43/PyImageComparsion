@@ -21,7 +21,7 @@ def image_hash_compare(base_img, comparable_img, match_threshold_hash_percent):
         Return:
             bool - являются ли изображения похожими
     """
-    match_rates = compare_tools.hash_match_rates(base_img, comparable_img)
+    match_rates = compare_tools.image_match_rates(base_img, comparable_img)
     if statistics.mean(match_rates.values()) >= match_threshold_hash_percent:
         return True
     return False
@@ -83,3 +83,19 @@ def full_image_compare(img_1_path, img_2_path, match_threshold_hash_percent=75, 
     # Оценку схожести по ORB используем только если не определили схожесть по хешам,
     # т.к. оценка схожести по ORB - достаточно затратная по времени операция
     return image_orb_compare(img_1, img_2, match_threshold_orb_percent)
+
+
+def fast_grouping_similar_images(images, match_threshold_hash_percent=75):
+    """
+        Быстрая группировка похожих изображений по average hash и wavelet hash.
+        Params:
+            images - последовательность изображений
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими.
+        Return:
+            list - 2D список сгруппированных похожих изображений.
+                   [[img_from_group1, img_from_group1, ...],
+                    [img_from_group2, img_from_group2, ...],
+                    [...], ...]
+    """
+    pass
