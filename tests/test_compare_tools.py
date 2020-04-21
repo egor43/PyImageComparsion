@@ -6,6 +6,7 @@
 
 import unittest
 from image_comparsion import image_opener
+from image_comparsion import image_metrick
 from image_comparsion import compare_tools
 
 
@@ -34,6 +35,45 @@ class TestCompareTools(unittest.TestCase):
         self.img4_path = "./tests/files/4.png"
         self.img5_path = "./tests/files/5.png"
     
+    def test_hash_match_rates(self):
+        """
+            Тестирование получения степеней cовпадения хешей изображений
+        """
+        metricks=("avg", "wav")
+        img1_hashes = image_metrick.image_metricks(self.img1, metricks)
+        img2_hashes = image_metrick.image_metricks(self.img2, metricks)
+        match_rates = compare_tools.hash_match_rates(img1_hashes, img2_hashes)
+        self.assertTrue(match_rates)
+    
+    def test_hash_match_rates_len(self):
+        """
+            Тестирование количества хешей изображений, возвращаемое 
+            при вычислении степеней совпадения
+        """
+        metricks=("avg", "wav", "dif")
+        img1_hashes = image_metrick.image_metricks(self.img1, metricks)
+        img2_hashes = image_metrick.image_metricks(self.img2, metricks)
+        match_rates = compare_tools.hash_match_rates(img1_hashes, img2_hashes)
+        self.assertEqual(len(match_rates), len(metricks))
+    
+    def test_hash_match_rates_custom_metrick(self):
+        """
+            Тестирование получения сепеней совпадения указанных метрик
+        """
+        metricks=("wav", "dif")
+        img1_hashes = image_metrick.image_metricks(self.img1, metricks)
+        img2_hashes = image_metrick.image_metricks(self.img2, metricks)
+        match_rates = compare_tools.hash_match_rates(img1_hashes, img2_hashes)
+        self.assertTrue("wav" in match_rates)
+        self.assertTrue("dif" in match_rates)
+
+    def test_hash_match_rates_empty(self):
+        """
+            Тестирование получения степеней cовпадения пустых хешей изображений
+        """
+        match_rates = compare_tools.hash_match_rates({}, {})
+        self.assertFalse(match_rates)
+
     def test_image_match_rates(self):
         """
             Тестирование получения степеней овпадения изображений
