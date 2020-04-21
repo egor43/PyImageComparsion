@@ -32,38 +32,6 @@ class TestCompareApi(unittest.TestCase):
         
         self.img4_path = "./tests/files/4.png"
         self.img5_path = "./tests/files/5.png"
-    
-    def test_hash_match_rates(self):
-        """
-            Тестирование получения степеней овпадения изображений
-        """
-        match_rates = compare_api.hash_match_rates(self.img1, self.img2)
-        self.assertTrue(match_rates)
-    
-    def test_hash_match_rates_for_equals_img(self):
-        """
-            Тестирование получения 100% степеней совпадений для одинаковых изображений
-        """
-        match_rates = compare_api.hash_match_rates(self.img1, self.img1)
-        self.assertTrue(all([rate == 100.0 for rate in match_rates.values()]))
-    
-    def test_hash_match_rates_for_not_equals_img(self):
-        """
-            Тестирование получения не 100% степеней совпадений для различных изображений
-        """
-        match_rates = compare_api.hash_match_rates(self.img1, self.img2)
-        self.assertTrue(all([rate != 100.0 for rate in match_rates.values()]))
-
-    def test_hash_match_rates_with_custom_metrick(self):
-        """
-            Тестирование получения степеней совпадения по указанным метрикам
-        """
-        metricks = ("dif", "avg", "per", "wav")
-        match_rates = compare_api.hash_match_rates(self.img1, self.img2, metricks=metricks)
-        self.assertTrue("dif" in match_rates)
-        self.assertTrue("avg" in match_rates)
-        self.assertTrue("per" in match_rates)
-        self.assertTrue("wav" in match_rates)
 
     def test_image_hash_compare(self):
         """
@@ -85,20 +53,6 @@ class TestCompareApi(unittest.TestCase):
         """
         match_threshold_hash_percent = 100
         self.assertTrue(compare_api.image_hash_compare(self.img2, self.img2, match_threshold_hash_percent))
-
-    def test_orb_match_rate(self):
-        """
-            Тестирование получения процента совпадения изображений по дескрипторам ORB детектора
-        """
-        match_percent = compare_api.orb_match_rate(self.img2, self.img3)
-        self.assertTrue(match_percent >= 0 and match_percent <= 100)
-
-    def test_orb_match_rate_for_equals_img(self):
-        """
-            Тестирование получения близкого к 100% совпадения одинаковых изображений по дескрипторам ORB детектора
-        """
-        match_percent = compare_api.orb_match_rate(self.img2, self.img2)
-        self.assertTrue(match_percent >= 97 and match_percent <= 100)
     
     def test_image_orb_compare(self):
         """
