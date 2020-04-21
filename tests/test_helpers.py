@@ -66,3 +66,55 @@ class TestHelpers(unittest.TestCase):
         images = []
         max_image = helpers.max_image(images)
         self.assertEqual(max_image, None)
+
+    def test_is_avg_exceeded_threshold(self):
+        """
+            Тестирование проверки превышения средним значением последовательности
+            заданного порогового значения
+        """
+        seq = [3, 3, 3]
+        self.assertTrue(helpers.is_avg_exceeded_threshold(seq, 2))
+    
+    def test_is_avg_exceeded_threshold_positive(self):
+        """
+            Тестирование проверки превышения средним значением последовательности
+            заданного порогового значения.
+            В случае нестрогого равенства.
+        """
+        seq = [2, 2, 2]
+        self.assertTrue(helpers.is_avg_exceeded_threshold(seq, 2))
+    
+    def test_is_avg_exceeded_threshold_negative(self):
+        """
+            Тестирование проверки превышения средним значением последовательности
+            заданного порогового значения.
+            В случае не превышения порогового значения
+        """
+        seq = [1, 1, 1]
+        self.assertFalse(helpers.is_avg_exceeded_threshold(seq, 2))
+    
+    def test_is_avg_exceeded_threshold_empty(self):
+        """
+            Тестирование проверки превышения средним значением последовательности
+            заданного порогового значения. 
+            В случае пустой последовательности
+        """
+        self.assertFalse(helpers.is_avg_exceeded_threshold([], 2))
+    
+    def test_is_avg_exceeded_threshold_strict(self):
+        """
+            Тестирование проверки превышения средним значением последовательности
+            заданного порогового значения.
+            В случае строгого равенства и не превышения порогового значения
+        """
+        seq = [2, 2, 2]
+        self.assertFalse(helpers.is_avg_exceeded_threshold(seq, 2, strict_equality=True))
+    
+    def test_is_avg_exceeded_threshold_strict_positive(self):
+        """
+            Тестирование проверки превышения средним значением последовательности
+            заданного порогового значения. 
+            В случае строгого равенства
+        """
+        seq = [3, 3, 3]
+        self.assertTrue(helpers.is_avg_exceeded_threshold(seq, 2, strict_equality=True))
