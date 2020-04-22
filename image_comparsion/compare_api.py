@@ -21,8 +21,8 @@ def fast_image_compare(img_1_path, img_2_path,
         Return:
             bool - являются ли изображения похожими
     """
-    img_1 = image_opener.get_img(img_1_path, is_gray_scale=True)
-    img_2 = image_opener.get_img(img_2_path, is_gray_scale=True)
+    img_1 = image_opener.get_img(img_1_path)
+    img_2 = image_opener.get_img(img_2_path)
     return compare_tools.image_hash_compare(img_1, img_2, match_threshold_hash_percent)
 
 
@@ -42,8 +42,8 @@ def full_image_compare(img_1_path, img_2_path,
         Return:
             bool - являются ли изображения похожими
     """
-    img_1 = image_opener.get_img(img_1_path, is_gray_scale=True)
-    img_2 = image_opener.get_img(img_2_path, is_gray_scale=True)
+    img_1 = image_opener.get_img(img_1_path)
+    img_2 = image_opener.get_img(img_2_path)
 
     hash_compare = compare_tools.image_hash_compare(img_1, img_2, match_threshold_hash_percent)
     if hash_compare:

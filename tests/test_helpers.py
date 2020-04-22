@@ -21,19 +21,19 @@ class TestHelpers(unittest.TestCase):
             Подготовка необходимых данных
         """
         self.img1_path = "./tests/files/1.png"
-        self.img1 = image_opener.get_img(self.img1_path, is_gray_scale=True)
+        self.img1 = image_opener.get_img(self.img1_path)
     
         self.img2_path = "./tests/files/2.png"
-        self.img2 = image_opener.get_img(self.img2_path, is_gray_scale=True)
+        self.img2 = image_opener.get_img(self.img2_path)
         
         self.img3_path = "./tests/files/3.png"
-        self.img3 = image_opener.get_img(self.img3_path, is_gray_scale=True)
+        self.img3 = image_opener.get_img(self.img3_path)
 
         self.img4_path = "./tests/files/4.png"
-        self.img4 = image_opener.get_img(self.img4_path, is_gray_scale=True)
+        self.img4 = image_opener.get_img(self.img4_path)
 
         self.img5_path = "./tests/files/5.png"
-        self.img5 = image_opener.get_img(self.img5_path, is_gray_scale=True)
+        self.img5 = image_opener.get_img(self.img5_path)
 
     def test_is_url_valid(self):
         """

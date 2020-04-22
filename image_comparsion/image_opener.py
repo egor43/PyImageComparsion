@@ -11,7 +11,7 @@ from PIL import Image
 from . import helpers
 
 
-def get_img_from_byte_stream(binary_stream, is_gray_scale=False):
+def get_img_from_byte_stream(binary_stream, is_gray_scale=True):
     """
         Возвращает изображение.
         Params:
@@ -27,7 +27,7 @@ def get_img_from_byte_stream(binary_stream, is_gray_scale=False):
     return image
 
 
-def get_img_from_url(image_url, is_gray_scale=False):
+def get_img_from_url(image_url, is_gray_scale=True):
     """
         Возвращает изображение полученное по переданному url.
         Params:
@@ -41,7 +41,7 @@ def get_img_from_url(image_url, is_gray_scale=False):
     return get_img_from_byte_stream(response.raw, is_gray_scale)
 
 
-def get_img(image_path, is_gray_scale=False):
+def get_img(image_path, is_gray_scale=True):
     """
         Возвращает изображение полученное по переданному пути или url.
         Params:

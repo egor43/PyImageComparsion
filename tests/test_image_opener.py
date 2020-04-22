@@ -42,7 +42,7 @@ class TestImageOpener(unittest.TestCase):
             Тестирование получения изображения в оттенках серого
         """
         with open(self.img_path, "rb") as img_byte_stream:
-            img = image_opener.get_img_from_byte_stream(img_byte_stream, is_gray_scale=True)
+            img = image_opener.get_img_from_byte_stream(img_byte_stream)
             self.assertEqual(img.mode, "L")
     
     def test_get_img_from_byte_stream_not_gray_scale(self):
@@ -50,7 +50,7 @@ class TestImageOpener(unittest.TestCase):
             Тестирование получения изображения в цветном режиме
         """
         with open(self.img_path, "rb") as img_byte_stream:
-            img = image_opener.get_img_from_byte_stream(img_byte_stream)
+            img = image_opener.get_img_from_byte_stream(img_byte_stream, is_gray_scale=False)
             self.assertNotEqual(img.mode, "L")
 
     def test_get_img_from_url_empty_raise(self):
@@ -71,14 +71,14 @@ class TestImageOpener(unittest.TestCase):
         """
             Тестирование получения изображения по url в оттенках серого
         """
-        img = image_opener.get_img_from_url(self.img_url, is_gray_scale=True)
+        img = image_opener.get_img_from_url(self.img_url)
         self.assertEqual(img.mode, "L")
         
     def test_get_img_from_url_not_gray_scale(self):
         """
             Тестирование получения изображения по url в цветном режиме
         """
-        img = image_opener.get_img_from_url(self.img_url)
+        img = image_opener.get_img_from_url(self.img_url, is_gray_scale=False)
         self.assertNotEqual(img.mode, "L")
 
     def test_get_img_by_path(self):
@@ -99,12 +99,12 @@ class TestImageOpener(unittest.TestCase):
         """
             Тестирование получения изображения оттенках серого
         """
-        img = image_opener.get_img(self.img_path, is_gray_scale=True)
+        img = image_opener.get_img(self.img_path)
         self.assertEqual(img.mode, "L")
     
     def test_get_img_by_url_gray_scale(self):
         """
             Тестирование получения изображения по url в цветном режиме
         """
-        img = image_opener.get_img(self.img_url)
+        img = image_opener.get_img(self.img_url, is_gray_scale=False)
         self.assertNotEqual(img.mode, "L")
