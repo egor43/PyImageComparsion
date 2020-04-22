@@ -176,3 +176,18 @@ class TestCompareTools(unittest.TestCase):
         """
         img2_metricks = image_metrick.image_metricks(self.img2)
         self.assertTrue(compare_tools.hash_metrick_compare(img2_metricks, img2_metricks))
+
+    def test_orb_metrick_compare(self):
+        """
+            Тестирование определения схожести метрик (orb дескрипторов) двух изображений.
+        """
+        img2_metricks = image_metrick.image_metricks(self.img2)
+        img3_metricks = image_metrick.image_metricks(self.img3)
+        self.assertFalse(compare_tools.orb_metrick_compare(img2_metricks, img3_metricks))
+
+    def test_orb_metrick_compare_equals(self):
+        """
+            Тестирование определения схожести метрик (orb дескрипторов) двух одинаковых изображений.
+        """
+        img2_metricks = image_metrick.image_metricks(self.img2)
+        self.assertTrue(compare_tools.orb_metrick_compare(img2_metricks, img2_metricks))
