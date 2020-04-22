@@ -33,8 +33,13 @@ class TestCompareTools(unittest.TestCase):
             self.img3 = image_opener.get_img_from_byte_stream(image_bs, is_gray_scale=True)
         
         self.img4_path = "./tests/files/4.png"
+        with open(self.img4_path, "rb") as image_bs:
+            self.img4 = image_opener.get_img_from_byte_stream(image_bs, is_gray_scale=True)
+        
         self.img5_path = "./tests/files/5.png"
-    
+        with open(self.img5_path, "rb") as image_bs:
+            self.img5 = image_opener.get_img_from_byte_stream(image_bs, is_gray_scale=True)
+  
     def test_hash_match_rates(self):
         """
             Тестирование получения степеней cовпадения хешей изображений
@@ -191,3 +196,38 @@ class TestCompareTools(unittest.TestCase):
         """
         img2_metricks = image_metrick.image_metricks(self.img2)
         self.assertTrue(compare_tools.orb_metrick_compare(img2_metricks, img2_metricks))
+
+    def test_grouping_similar_images(self):
+        """
+            Тестирование группировки похожих изображений
+        """
+        images = [self.img2, self.img3, self.img4, self.img5]
+        for group in compare_tools.grouping_similar_images(images):
+            self.assertTrue(len(group) > 0)
+    
+    def test_grouping_similar_images_equal(self):
+        """
+            Тестирование группировки похожих изображений.
+            В случае одинаковых изображений
+        """
+        images = [self.img2, self.img2, self.img2, self.img2]
+        for group in compare_tools.grouping_similar_images(images):
+            self.assertTrue(len(group) == len(images))
+    
+    def test_grouping_similar_images_without_orb(self):
+        """
+            Тестирование группировки похожих изображений.
+            В случае группировки без использования orb дескрипторов
+        """
+        images = [self.img2, self.img3, self.img4, self.img5]
+        for group in compare_tools.grouping_similar_images(images, with_orb_comparsion=False):
+            self.assertTrue(len(group) > 0)
+    
+    def test_grouping_similar_images_equal_without_orb(self):
+        """
+            Тестирование группировки похожих изображений.
+            В случае одинаковых изображений и группировки без использования orb дескрипторов
+        """
+        images = [self.img2, self.img2, self.img2, self.img2]
+        for group in compare_tools.grouping_similar_images(images, with_orb_comparsion=False):
+            self.assertTrue(len(group) == len(images))
