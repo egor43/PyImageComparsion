@@ -64,6 +64,13 @@ class TestImageMetrick(unittest.TestCase):
         """
         orb_desc = image_metrick.orb_descriptors(self.img2)
         self.assertTrue(len(orb_desc))
+    
+    def test_orb_descriptors_raise_for_small_img(self):
+        """
+            Тестирование получения исключения при поиске ORB дескрипторов
+            для маленького изображения
+        """
+        self.assertRaises(RuntimeError, image_metrick.orb_descriptors, self.img1)
 
     def test_match_descriptors_count(self):
         """
