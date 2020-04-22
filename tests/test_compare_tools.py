@@ -161,3 +161,18 @@ class TestCompareTools(unittest.TestCase):
         """
         match_threshold_orb_percent = 98
         self.assertTrue(compare_tools.image_orb_compare(self.img2, self.img2, match_threshold_orb_percent))
+    
+    def test_hash_metrick_compare(self):
+        """
+            Тестирование определения схожести метрик (описывающих хешей) двух изображений.
+        """
+        img2_metricks = image_metrick.image_metricks(self.img2)
+        img3_metricks = image_metrick.image_metricks(self.img3)
+        self.assertFalse(compare_tools.hash_metrick_compare(img2_metricks, img3_metricks))
+
+    def test_hash_metrick_compare_equals(self):
+        """
+            Тестирование определения схожести метрик (описывающих хешей) двух одинаковых изображений.
+        """
+        img2_metricks = image_metrick.image_metricks(self.img2)
+        self.assertTrue(compare_tools.hash_metrick_compare(img2_metricks, img2_metricks))
