@@ -104,12 +104,29 @@ def hash_metrick_compare(base_metricks, comparable_metricks,
             comparable_metricks - метрики сравниваемого изображения
             match_threshold_hash_percent - порог совпадения хешей с которого
                                            можно считать изображения похожими
+        Return:
+            bool - являются ли метрики (хешей) изображений похожими
     """
     base_hash_metricks = helpers.filter_metrick(base_metricks, constants.DEFAULT_HASHES)
     comparable_hash_metricks = helpers.filter_metrick(comparable_metricks, constants.DEFAULT_HASHES)
     match_rates = hash_match_rates(base_hash_metricks, comparable_hash_metricks)
     return helpers.is_avg_exceeded_threshold(match_rates.values(), match_threshold_hash_percent)
 
+
+def orb_metrick_compare(base_metricks, comparable_metricks, 
+                         match_threshold_orb_percent=constants.MATCH_THRESHOLD_ORB_PERCENT):
+    """
+        Определение схожести двух метрик по orb дескрипторам
+        Params:
+            base_metricks - метрики базового изображения
+            comparable_metricks - метрики сравниваемого изображения
+            match_threshold_orb_percent - порог совпадения ORB дескрипторов с которого
+                                           можно считать изображения похожими
+        Return:
+            bool - являются ли метрики (ORB дескритпоров) изображений похожими
+    """
+    match_rate = image_metrick.match_descriptors_percent(base_metricks["orb"], comparable_metricks["orb"])
+    return helpers.is_avg_exceeded_threshold([match_rate], match_threshold_orb_percent)
 
 
 #TODO: Дописать метод стравниения orb метрик (если нужно)
