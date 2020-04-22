@@ -66,3 +66,25 @@ def fast_grouping_similar_images(image_paths, match_threshold_hash_percent=const
     """
     images = image_opener.get_images(image_paths)
     yield from compare_tools.grouping_similar_images(images, match_threshold_hash_percent, with_orb_comparsion=False)
+
+
+def full_grouping_similar_images(image_paths, 
+                                 match_threshold_hash_percent=constants.MATCH_THRESHOLD_HASH_PERCENT,
+                                 match_threshold_orb_percent=constants.MATCH_THRESHOLD_ORB_PERCENT):
+    """
+        Группировка изображений на основании хешей и orb дескриторов.
+        Из-за проверки совпадения orb дескрипторов метод работает медленно.
+        Возвращает генератор.
+        Params:
+            image_paths - список путей или url'ов к изображениям
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими
+            match_threshold_orb_percent - порог совпадения ORB дескриторов с которого
+                                          можно считать изображения похожими.
+        Return:
+            list - группа похожих изображений.
+    """
+    images = image_opener.get_images(image_paths)
+    yield from compare_tools.grouping_similar_images(images, 
+                                                     match_threshold_hash_percent,
+                                                     match_threshold_orb_percent)
