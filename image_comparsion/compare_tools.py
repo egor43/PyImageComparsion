@@ -129,6 +129,37 @@ def orb_metrick_compare(base_metricks, comparable_metricks,
     return helpers.is_avg_exceeded_threshold([match_rate], match_threshold_orb_percent)
 
 
-#TODO: Дописать метод стравниения orb метрик (если нужно)
-
-
+def grouping_similar_images(images, match_threshold_hash_percent=constants.MATCH_THRESHOLD_HASH_PERCENT,
+                            match_threshold_orb_percent=constants.MATCH_THRESHOLD_ORB_PERCENT,
+                            *, with_orb_comparsion=True):
+    """
+        Группировка похожих изображений.
+        Возвращает генератор.
+        Params:
+            images - последовательность изображений
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими
+            match_threshold_orb_percent - порог совпадения ORB дескриторов с которого
+                                          можно считать изображения похожими
+            with_orb_comparsion=True - флаг включающий сравнение orb дескрипторов.
+                                       Повышает точность но снижает работу.
+        Return:
+            list - группа похожих изображений.
+    """
+    images_with_metricks = [(img, image_metrick.image_metricks(img)) for img in images]
+    while images_with_metricks:
+        base_element = images_with_metricks.pop()
+        image_group = [base_element[0]]
+        skipped_elements = []
+        for element in images_with_metricks:
+            if hash_metrick_compare(base_element[1], element[1], match_threshold_hash_percent):
+                image_group.append(element[0])
+            elif with_orb_comparsion:
+                if orb_metrick_compare(base_element[1], element[1], match_threshold_orb_percent):
+                    image_group.append(element[0])
+                else:
+                    skipped_elements.append(element)
+            else:
+                skipped_elements.append(element)
+        images_with_metricks = skipped_elements
+        yield image_group
