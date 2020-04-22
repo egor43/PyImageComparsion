@@ -51,3 +51,18 @@ def full_image_compare(img_1_path, img_2_path,
     # Оценку схожести по ORB используем только если не определили схожесть по хешам,
     # т.к. оценка схожести по ORB - достаточно затратная по времени операция
     return compare_tools.image_orb_compare(img_1, img_2, match_threshold_orb_percent)
+
+
+def fast_grouping_similar_images(image_paths, match_threshold_hash_percent=constants.MATCH_THRESHOLD_HASH_PERCENT):
+    """
+        Быстрая группировка изображений на основании хешей.
+        Возвращает генератор.
+        Params:
+            image_paths - список путей или url'ов к изображениям
+            match_threshold_hash_percent - порог совпадения хешей с которого
+                                           можно считать изображения похожими
+        Return:
+            list - группа похожих изображений.
+    """
+    images = image_opener.get_images(image_paths)
+    yield from compare_tools.grouping_similar_images(images, match_threshold_hash_percent, with_orb_comparsion=False)
