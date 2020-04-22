@@ -84,3 +84,19 @@ class TestCompareApi(unittest.TestCase):
         image_paths = [self.img2_path, self.img2_path, self.img2_path, self.img2_path]
         for group in compare_api.fast_grouping_similar_images(image_paths):
             self.assertTrue(len(group) == len(image_paths))
+
+    def test_full_grouping_similar_images(self):
+        """
+            Тестирование группировки похожих изображений
+        """
+        image_paths = [self.img2_path, self.img3_path, self.img4_path, self.img5_path]
+        for group in compare_api.full_grouping_similar_images(image_paths):
+            self.assertTrue(len(group) > 0)
+
+    def test_full_grouping_similar_images_equal(self):
+        """
+            Тестирование группировки одинаковых изображений
+        """
+        image_paths = [self.img2_path, self.img2_path, self.img2_path, self.img2_path]
+        for group in compare_api.full_grouping_similar_images(image_paths):
+            self.assertTrue(len(group) == len(image_paths))
