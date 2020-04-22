@@ -57,3 +57,19 @@ def get_img(image_path, is_gray_scale=True):
     with open(image_path, "rb") as image_bs:
         image_byte_buf = io.BytesIO(image_bs.read())
         return get_img_from_byte_stream(image_byte_buf, is_gray_scale)
+
+
+def get_images(image_paths, is_gray_scale=True):
+    """
+        Возвращает последовательность изображений полученных по путям или url'ам.
+        Params:
+            image_paths - список путей или url'ов изображений
+            is_gray_scale - флаг определяющий необходимость преобразования
+                            изображения в оттенки серого (черно-белое)
+        Return:
+            list - список изображений
+    """
+    result = []
+    for image_path in image_paths:
+        result.append(get_img(image_path, is_gray_scale))
+    return result
