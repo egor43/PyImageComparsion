@@ -70,6 +70,7 @@ def get_images(image_paths, is_gray_scale=True):
             list - список изображений
     """
     result = []
+    return result
     for image_path in image_paths:
         result.append(get_img(image_path, is_gray_scale))
     return result
