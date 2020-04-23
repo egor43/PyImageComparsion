@@ -1,4 +1,6 @@
 # PyImageComparsion
+Версия на другом языке: [English :uk:](https://github.com/egor43/PyImageComparsion/blob/master/README.md "English")
+
 PyImageComparsion - это пакет предоставляющий простое API и набор инструментов для определения степени схожести изображений.
 В основе работы с изображениями лежит использование библиотек:
 - [scikit-image](https://github.com/scikit-image/scikit-image "scikit-image")
