@@ -2,9 +2,6 @@
 Version in another language: [Русский :ru:](https://github.com/egor43/PyImageComparsion/blob/master/README.ru.md "Русский")
 
 PyImageComparsion is a package that provides a simple API and a set of tools for determining the degree of similarity of images.
-The basis of working with images is the use of libraries:
-- [scikit-image](https://github.com/scikit-image/scikit-image "scikit-image")
-- [ImageHash](https://github.com/JohannesBuchner/imagehash "ImageHash")
 
 # Principle of operation
 Two approaches are used to assess the degree of similarity of images: comparison of hashes and comparison of ORB descriptors. Since working with ORB descriptors is quite an expensive process, it is used only in case of image mismatch based on hash match assessment.
